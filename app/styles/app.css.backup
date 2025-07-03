@@ -3,8 +3,6 @@
 @plugin "@tailwindcss/typography";
 
 @theme {
-  --font-sans: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
-  --font-heading: "Oxanium", ui-sans-serif, system-ui, sans-serif;
   --font-serif: Arial, IBMPlexSerif, Palatino, ui-serif;
 
   --breakpoint-sm: 32em;
@@ -380,17 +378,7 @@
   }
 
   html {
-    @apply font-sans;
     scroll-padding-top: 10rem;
-  }
-
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    @apply font-heading;
   }
 
   model-viewer::part(default-progress-mask) {
