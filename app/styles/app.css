@@ -3,7 +3,6 @@
 @plugin "@tailwindcss/typography";
 
 @theme {
-  --font-sans: Poppins, ui-sans-serif, system-ui, sans-serif;
   --font-serif: Arial, IBMPlexSerif, Palatino, ui-serif;
 
   --breakpoint-sm: 32em;
@@ -56,7 +55,7 @@
   --text-7xl: calc(var(--body-base-size) * 4.5);
   --text-7xl--line-height: 1;
   --text-8xl: calc(var(--body-base-size) * 6);
-  --text-8xl--line-height: ;
+  --text-8xl--line-height: 1;
   --text-9xl: calc(var(--body-base-size) * 8);
   --text-9xl--line-height: 1;
 
@@ -379,7 +378,7 @@
   }
 
   html {
-    @apply font-serif;
+    @apply font-sans;
     scroll-padding-top: 10rem;
   }
 
@@ -389,7 +388,7 @@
   h4,
   h5,
   h6 {
-    @apply font-sans;
+    @apply font-heading;
   }
 
   model-viewer::part(default-progress-mask) {

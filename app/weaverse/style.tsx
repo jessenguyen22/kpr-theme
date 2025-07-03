@@ -34,6 +34,8 @@ export function GlobalStyle() {
       h1BaseSize,
       headingBaseSpacing,
       headingBaseLineHeight,
+      headingFontFamily,
+      bodyFontFamily,
       navHeightDesktop,
       navHeightTablet,
       pageWidth,
@@ -86,6 +88,7 @@ export function GlobalStyle() {
               --body-base-size: ${bodyBaseSize}px;
               --body-base-spacing: ${bodyBaseSpacing};
               --body-base-line-height: ${bodyBaseLineHeight};
+              --body-font-family: "${bodyFontFamily || 'IBM Plex Sans'}";
 
               --heading-scale-ratio: 1.2;
               --heading-mobile-scale-ratio: 1.1;
@@ -106,6 +109,7 @@ export function GlobalStyle() {
 
               --heading-base-spacing: ${headingBaseSpacing};
               --heading-base-line-height: ${headingBaseLineHeight};
+              --heading-font-family: "${headingFontFamily || 'Oxanium'}";
 
             @media (min-width: 32em) {
               body {

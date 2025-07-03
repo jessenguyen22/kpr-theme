@@ -1,7 +1,20 @@
-import poppins400 from "@fontsource/poppins/400.css?url";
-import poppins500 from "@fontsource/poppins/500.css?url";
-import poppins600 from "@fontsource/poppins/600.css?url";
-import poppins700 from "@fontsource/poppins/700.css?url";
+// Oxanium for headings
+import oxanium200 from "@fontsource/oxanium/200.css?url";
+import oxanium300 from "@fontsource/oxanium/300.css?url";
+import oxanium400 from "@fontsource/oxanium/400.css?url";
+import oxanium500 from "@fontsource/oxanium/500.css?url";
+import oxanium600 from "@fontsource/oxanium/600.css?url";
+import oxanium700 from "@fontsource/oxanium/700.css?url";
+import oxanium800 from "@fontsource/oxanium/800.css?url";
+
+// IBM Plex Sans for body text
+import ibmPlexSans100 from "@fontsource/ibm-plex-sans/100.css?url";
+import ibmPlexSans200 from "@fontsource/ibm-plex-sans/200.css?url";
+import ibmPlexSans300 from "@fontsource/ibm-plex-sans/300.css?url";
+import ibmPlexSans400 from "@fontsource/ibm-plex-sans/400.css?url";
+import ibmPlexSans500 from "@fontsource/ibm-plex-sans/500.css?url";
+import ibmPlexSans600 from "@fontsource/ibm-plex-sans/600.css?url";
+import ibmPlexSans700 from "@fontsource/ibm-plex-sans/700.css?url";
 import { TooltipProvider } from "@radix-ui/react-tooltip";
 import type { SeoConfig } from "@shopify/hydrogen";
 import { Analytics, getSeoMeta, useNonce } from "@shopify/hydrogen";
@@ -30,6 +43,7 @@ import { GenericError } from "./components/root/generic-error";
 import { GlobalLoading } from "./components/root/global-loading";
 import { NotFound } from "./components/root/not-found";
 import styles from "./styles/app.css?url";
+import fontStyles from "./styles/fonts.css?url";
 import { DEFAULT_LOCALE } from "./utils/const";
 import { loadCriticalData, loadDeferredData } from "./utils/root.server";
 import { GlobalStyle } from "./weaverse/style";
@@ -107,11 +121,25 @@ export function Layout({ children }: { children: React.ReactNode }) {
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width,initial-scale=1" />
-        <link rel="stylesheet" href={poppins400} />
-        <link rel="stylesheet" href={poppins500} />
-        <link rel="stylesheet" href={poppins600} />
-        <link rel="stylesheet" href={poppins700} />
+        {/* Oxanium for headings */}
+        <link rel="stylesheet" href={oxanium200} />
+        <link rel="stylesheet" href={oxanium300} />
+        <link rel="stylesheet" href={oxanium400} />
+        <link rel="stylesheet" href={oxanium500} />
+        <link rel="stylesheet" href={oxanium600} />
+        <link rel="stylesheet" href={oxanium700} />
+        <link rel="stylesheet" href={oxanium800} />
+        
+        {/* IBM Plex Sans for body text */}
+        <link rel="stylesheet" href={ibmPlexSans100} />
+        <link rel="stylesheet" href={ibmPlexSans200} />
+        <link rel="stylesheet" href={ibmPlexSans300} />
+        <link rel="stylesheet" href={ibmPlexSans400} />
+        <link rel="stylesheet" href={ibmPlexSans500} />
+        <link rel="stylesheet" href={ibmPlexSans600} />
+        <link rel="stylesheet" href={ibmPlexSans700} />
         <link rel="stylesheet" href={styles} />
+        <link rel="stylesheet" href={fontStyles} />
         <Meta />
         <Links />
         <GlobalStyle />

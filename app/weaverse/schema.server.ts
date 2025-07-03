@@ -42,7 +42,7 @@ export const themeSchema: HydrogenThemeSchema = {
           name: "pageWidth",
           configs: {
             min: 1000,
-            max: 1600,
+            max: 1920,
             step: 10,
             unit: "px",
           },
@@ -399,6 +399,40 @@ export const themeSchema: HydrogenThemeSchema = {
     {
       group: "Typography",
       inputs: [
+        {
+          type: "heading",
+          label: "Font Families",
+        },
+        {
+          type: "select",
+          label: "Heading font",
+          name: "headingFontFamily",
+          configs: {
+            options: [
+              { value: "Oxanium", label: "Oxanium (Default)" },
+              { value: "IBM Plex Sans", label: "IBM Plex Sans" },
+              { value: "Arial", label: "Arial" },
+              { value: "Helvetica", label: "Helvetica" },
+            ],
+          },
+          defaultValue: "Oxanium",
+          helpText: "Font family for headings (h1, h2, h3, h4, h5, h6)",
+        },
+        {
+          type: "select",
+          label: "Body font",
+          name: "bodyFontFamily",
+          configs: {
+            options: [
+              { value: "IBM Plex Sans", label: "IBM Plex Sans (Default)" },
+              { value: "Oxanium", label: "Oxanium" },
+              { value: "Arial", label: "Arial" },
+              { value: "Helvetica", label: "Helvetica" },
+            ],
+          },
+          defaultValue: "IBM Plex Sans",
+          helpText: "Font family for body text and paragraphs",
+        },
         {
           type: "heading",
           label: "Headings",
