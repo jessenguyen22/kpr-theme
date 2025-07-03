@@ -13,6 +13,7 @@ import {
   Suspense,
   useCallback,
   useEffect,
+  useRef,
   useState,
 } from "react";
 import { useInView } from "react-intersection-observer";
@@ -88,11 +89,6 @@ function getPlayerSize(id: string) {
   return { width: "100%", height: "auto" };
 }
 
-// Helper function to check if URL is Vimeo
-function isVimeoUrl(url: string): boolean {
-  return url.includes('vimeo.com');
-}
-
 // Helper function to check if URL is YouTube
 function isYouTubeUrl(url: string): boolean {
   return url.includes('youtube.com') || url.includes('youtu.be');
@@ -104,50 +100,87 @@ function isVideoFile(url: string): boolean {
   return videoExtensions.some(ext => url.toLowerCase().includes(ext));
 }
 
-// Custom ReactPlayer wrapper that avoids Vimeo
-const ReactPlayer = lazy(() => import("react-player"));
+// Helper function to convert YouTube URL to embed URL
+function getYouTubeEmbedUrl(url: string): string {
+  let videoId = '';
+  
+  if (url.includes('youtube.com/watch')) {
+    const urlParams = new URLSearchParams(url.split('?')[1]);
+    videoId = urlParams.get('v') || '';
+  } else if (url.includes('youtu.be/')) {
+    videoId = url.split('youtu.be/')[1]?.split('?')[0] || '';
+  }
+  
+  return videoId ? `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&loop=1&playlist=${videoId}&controls=0&showinfo=0&rel=0&modestbranding=1` : url;
+}
 
-function SafeVideoPlayer({ 
+
+
+// Custom Video Player Component
+function CustomVideoPlayer({ 
   url, 
   width, 
   height, 
-  className,
-  ...props 
+  className 
 }: {
   url: string;
   width: string | number;
   height: string | number;
   className?: string;
-  [key: string]: any;
 }) {
-  // If it's a Vimeo URL, show a fallback message
-  if (isVimeoUrl(url)) {
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    if (videoRef.current && isVideoFile(url)) {
+      // Auto-play video files
+      videoRef.current.play().catch(() => {
+        // Ignore autoplay errors
+      });
+    }
+  }, [url]);
+
+  // For YouTube, use iframe
+  if (isYouTubeUrl(url)) {
     return (
-      <div 
-        className={clsx(className, "flex items-center justify-center bg-gray-100 text-gray-500")}
-        style={{ width, height }}
-      >
-        <div className="text-center">
-          <p className="text-sm">Vimeo videos are not supported</p>
-          <p className="text-xs mt-1">Please use YouTube or direct video files</p>
-        </div>
+      <div className={clsx(className, "relative overflow-hidden")} style={{ width, height }}>
+        <iframe
+          src={getYouTubeEmbedUrl(url)}
+          width="100%"
+          height="100%"
+          className="absolute inset-0 w-full h-full"
+          frameBorder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowFullScreen
+          title="YouTube video player"
+        />
       </div>
     );
   }
 
-  // For YouTube and video files, use ReactPlayer
-  if (isYouTubeUrl(url) || isVideoFile(url)) {
+  // For direct video files, use HTML5 video
+  if (isVideoFile(url)) {
     return (
-      <ReactPlayer
-        src={url}
-        width={width}
-        height={height}
-        className={className}
-        playing
-        muted
-        loop={true}
-        controls={false}
-      />
+      <div className={clsx(className, "relative overflow-hidden")} style={{ width, height }}>
+        <video
+          ref={videoRef}
+          className="absolute inset-0 w-full h-full object-cover"
+          autoPlay
+          muted
+          loop
+          playsInline
+          controls={false}
+          style={{
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+          }}
+        >
+          <source src={url} type="video/mp4" />
+          <source src={url} type="video/webm" />
+          <source src={url} type="video/ogg" />
+          Your browser does not support the video tag.
+        </video>
+      </div>
     );
   }
 
@@ -240,7 +273,7 @@ const HeroVideo = forwardRef<HTMLElement, HeroVideoProps>((props, ref) => {
       >
         {inView && videoURL && (
           <Suspense fallback={null}>
-            <SafeVideoPlayer
+            <CustomVideoPlayer
               url={videoURL}
               width={size.width}
               height={size.height}
