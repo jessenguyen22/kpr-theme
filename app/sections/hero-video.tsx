@@ -88,7 +88,82 @@ function getPlayerSize(id: string) {
   return { width: "100%", height: "auto" };
 }
 
+// Helper function to check if URL is Vimeo
+function isVimeoUrl(url: string): boolean {
+  return url.includes('vimeo.com');
+}
+
+// Helper function to check if URL is YouTube
+function isYouTubeUrl(url: string): boolean {
+  return url.includes('youtube.com') || url.includes('youtu.be');
+}
+
+// Helper function to check if URL is a direct video file
+function isVideoFile(url: string): boolean {
+  const videoExtensions = ['.mp4', '.webm', '.ogg', '.mov', '.avi', '.mkv'];
+  return videoExtensions.some(ext => url.toLowerCase().includes(ext));
+}
+
+// Custom ReactPlayer wrapper that avoids Vimeo
 const ReactPlayer = lazy(() => import("react-player"));
+
+function SafeVideoPlayer({ 
+  url, 
+  width, 
+  height, 
+  className,
+  ...props 
+}: {
+  url: string;
+  width: string | number;
+  height: string | number;
+  className?: string;
+  [key: string]: any;
+}) {
+  // If it's a Vimeo URL, show a fallback message
+  if (isVimeoUrl(url)) {
+    return (
+      <div 
+        className={clsx(className, "flex items-center justify-center bg-gray-100 text-gray-500")}
+        style={{ width, height }}
+      >
+        <div className="text-center">
+          <p className="text-sm">Vimeo videos are not supported</p>
+          <p className="text-xs mt-1">Please use YouTube or direct video files</p>
+        </div>
+      </div>
+    );
+  }
+
+  // For YouTube and video files, use ReactPlayer
+  if (isYouTubeUrl(url) || isVideoFile(url)) {
+    return (
+      <ReactPlayer
+        src={url}
+        width={width}
+        height={height}
+        className={className}
+        playing
+        muted
+        loop={true}
+        controls={false}
+      />
+    );
+  }
+
+  // Fallback for unsupported URLs
+  return (
+    <div 
+      className={clsx(className, "flex items-center justify-center bg-gray-100 text-gray-500")}
+      style={{ width, height }}
+    >
+      <div className="text-center">
+        <p className="text-sm">Unsupported video format</p>
+        <p className="text-xs mt-1">Please use YouTube or direct video files</p>
+      </div>
+    </div>
+  );
+}
 
 const HeroVideo = forwardRef<HTMLElement, HeroVideoProps>((props, ref) => {
   const {
@@ -163,16 +238,12 @@ const HeroVideo = forwardRef<HTMLElement, HeroVideoProps>((props, ref) => {
           "sm:translate-x-[min(0px,calc((var(--desktop-height)/9*16-100vw)/-2))]",
         )}
       >
-        {inView && (
+        {inView && videoURL && (
           <Suspense fallback={null}>
-            <ReactPlayer
-              src={videoURL}
-              playing
-              muted
-              loop={true}
+            <SafeVideoPlayer
+              url={videoURL}
               width={size.width}
               height={size.height}
-              controls={false}
               className="aspect-video"
             />
           </Suspense>
