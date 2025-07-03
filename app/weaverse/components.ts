@@ -54,6 +54,11 @@ import * as TestimonialItem from "~/sections/testimonials/item";
 import * as TestimonialItems from "~/sections/testimonials/items";
 import * as VideoEmbed from "~/sections/video-embed";
 import * as VideoEmbedItem from "~/sections/video-embed/video";
+import * as Hero from "~/sections/hero";
+import * as HeroHeading from "~/sections/hero/components/heading";
+import * as HeroParagraph from "~/sections/hero/components/paragraph";
+import * as HeroButton from "~/sections/hero/components/button";
+import * as HeroIcon from '~/sections/hero/components/icon';
 
 export const components: HydrogenComponent[] = [
   SubHeading,
@@ -114,4 +119,9 @@ export const components: HydrogenComponent[] = [
   SlideShow,
   SlideShowSlide,
   Spacer,
+  Hero,
+  HeroHeading,
+  HeroParagraph,
+  HeroButton,
+  HeroIcon,
 ];
