@@ -138,8 +138,8 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <link rel="stylesheet" href={ibmPlexSans500} />
         <link rel="stylesheet" href={ibmPlexSans600} />
         <link rel="stylesheet" href={ibmPlexSans700} />
-        <link rel="stylesheet" href={styles} />
         <link rel="stylesheet" href={fontStyles} />
+        <link rel="stylesheet" href={styles} />
         <Meta />
         <Links />
         <GlobalStyle />
