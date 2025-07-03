@@ -207,7 +207,7 @@ export const schema = createSchema({
           label: "Video URL",
           defaultValue: "https://www.youtube.com/watch?v=Su-x4Mo5xmU",
           placeholder: "https://www.youtube.com/watch?v=Su-x4Mo5xmU",
-          helpText: "Support YouTube, Vimeo, MP4, WebM, and HLS streams.",
+          helpText: "Support YouTube, MP4, WebM, and HLS streams.",
         },
         {
           type: "heading",

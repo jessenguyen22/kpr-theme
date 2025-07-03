@@ -17,7 +17,6 @@ export function getWeaverseCsp(request: Request, context: AppLoadContext) {
       "data:",
       "*.youtube.com",
       "*.youtu.be",
-      "*.vimeo.com",
       "*.google.com",
       "*.google-analytics.com",
       "*.googletagmanager.com",
@@ -26,7 +25,7 @@ export function getWeaverseCsp(request: Request, context: AppLoadContext) {
       "*.alicdn.com",
       ...weaverseHosts,
     ],
-    connectSrc: ["vimeo.com", "*.google-analytics.com", ...weaverseHosts],
+    connectSrc: ["*.google-analytics.com", ...weaverseHosts],
     styleSrc: weaverseHosts,
   };
   if (isDesignMode) {
