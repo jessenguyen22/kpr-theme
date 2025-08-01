@@ -2,195 +2,84 @@
 
 ## 📌 Current Focus
 
-Hiện tại, focus đang hướng vào việc phát triển và hoàn thiện **KPR Hero component** - một thành phần quan trọng trong giao diện trang chủ. Component này nhằm tạo ra trải nghiệm hero section tương tác và đẹp mắt cho người dùng.
+Hiện tại, focus đang hướng vào việc phân tích yêu cầu và thiết kế một phương pháp thích hợp cho **KPR Hero & Concept System** - một hệ thống navigation hoàn chỉnh cho trang chủ.
 
-### Key Components in Development:
-1. **KPR Hero Section**: `sections/kpr-hero.liquid` (đã hoàn thành cơ bản)
-2. **KPR Hero JavaScript**: `assets/kpr-hero.js` (đã hoàn thành cơ bản)
+Các file KPR đã được thử nghiệm trước đó đã được xóa do không đáp ứng đúng yêu cầu nghiệp vụ. Cần một phương pháp tiếp cận mới dựa trên phân tích yêu cầu chi tiết hơn.
+
+### Các Vấn Đề Đã Gặp:
+
+1. **Kiến trúc File**: 
+   - Cấu trúc thư mục của Shopify không cho phép subdirectories trong `assets`
+   - Flat file structure được yêu cầu
+
+2. **Module Resolution**: 
+   - Import maps (`@theme/...`) không hoạt động trong môi trường dev local
+   - Cần sử dụng relative imports cho development
+
+3. **Theme Editor Integration**:
+   - Sections không xuất hiện trong Theme Editor
+   - Cần tích hợp đúng với JSON template format (Online Store 2.0)
+
+4. **JS Architecture**:
+   - Cần phân tích kỹ hơn cấu trúc Component của Horizon theme
+   - Đảm bảo các Web Components tương thích với theme
 
 ## 🆕 Recent Changes
 
-### Latest Addition: KPR Hero Component
-- **New Files**:
-  - `assets/kpr-hero.js` - Web component cho KPR Hero
-  - `sections/kpr-hero.liquid` - Section template cho KPR Hero
+### Approach Đã Thử và Không Phù Hợp:
 
-- **Current State**:
-  - JavaScript component đã được cài đặt và hoạt động với event handlers
-  - File structure setup đã hoàn thành
-  - Event handling đã được thiết lập và hoạt động
-  - Đã thêm vào Import Maps và scripts để module được load đúng
+- **Web Components System**:
+  - Sử dụng custom elements để tạo hệ thống SPA-like
+  - Cài đặt Router, State Management, và Events system
+  - Các component: Hero, Concept Container, Sidebar Nav
+  - Vấn đề: Không tích hợp tốt với Theme Editor và không hoạt động như mong đợi
 
-- **Technical Details**:
-  - Extends base Component class
-  - Uses event delegation cho concept selection
-  - Implements Web Component lifecycle hooks
-  - Module được đăng ký trong import maps và modulepreload
+## ⚙️ Yêu Cầu Chính
 
-```javascript
-// assets/kpr-hero.js - Component JavaScript file
-import { Component } from '@theme/component';
+1. **Hero Banner System**:
+   - Section Hero chứa 3 button (Traditional, Hybrid, Modern)
+   - Chọn concept sẽ ẩn hero, hiển thị concept đã chọn
+   - Floating sidebar navigation giữa các concept và sections
+   - Back navigation để quay về hero
 
-export class KprHero extends Component {
-  /** @type {string[]} */
-  requiredRefs = [];
-  
-  connectedCallback() {
-    super.connectedCallback();
-    console.log('KPR Hero initialized');
-    
-    // Thêm event listener trực tiếp vào component
-    this.addEventListener('click', this.handleClick);
-  }
-  
-  handleClick = (event) => {
-    const target = event.target instanceof Element ? event.target : null;
-    const button = target ? target.closest('[data-action="show-concept"]') : null;
-    
-    if (button && button instanceof HTMLElement) {
-      const concept = button.dataset.concept || '';
-      console.log(`Concept selected: ${concept}`);
-      
-      document.dispatchEvent(new CustomEvent('kpr:concept-selected', {
-        bubbles: true,
-        detail: { concept }
-      }));
-    }
-  };
-}
+2. **Concept Section Structure**:
+   - Mỗi concept là 1 section riêng biệt
+   - Mỗi section concept có thể customizable qua Theme Editor
+   - Chứa các blocks cho: New Arrivals, Best Sellers, Bundle Products
+   - Responsive (Mobile-first)
 
-// Đăng ký custom element
-customElements.define('kpr-hero-section', KprHero);
-```
+3. **Technical Requirements**:
+   - SPA-like experience (không reload trang)
+   - Performance optimization cho mobile
+   - Tích hợp với Theme Editor
+   - Lazy loading sections
+   - Support cho browser history
+   - SEO-friendly URLs
 
-## ✨ Quy trình tạo component mới trong theme
+## 🧩 Bài Học & Điều Cần Làm Rõ
 
-Qua quá trình phát triển KPR Hero, chúng ta đã học được quy trình chuẩn để tạo và cài đặt một component mới trong theme:
+1. **Theme Integration**:
+   - Cần hiểu rõ hơn về cách sections được thêm vào Theme Editor
+   - JSON templates và cách cấu hình sections_groups
+   - Cách handling section events trong Shopify
 
-### 1. Cấu trúc file cần tạo:
-- **Liquid section file**: `sections/your-component.liquid`
-- **JavaScript file**: `assets/your-component.js`
+2. **JavaScript Architecture**:
+   - Cân nhắc between Web Components và vanilla JS
+   - Cách tiếp cận phù hợp với Horizon theme
+   - Handling của Liquid variables trong JS
 
-### 2. Đăng ký JavaScript trong Import Maps:
-Cập nhật `snippets/scripts.liquid` để thêm component vào Import Maps:
+3. **Performance Constraints**:
+   - 90% traffic đến từ mobile FB app
+   - Lazy loading strategy
+   - Caching content đã load
 
-```liquid
-<script type="importmap">
-  {
-    "imports": {
-      // ...các imports khác
-      "@theme/your-component": "{{ 'your-component.js' | asset_url }}"
-    }
-  }
-</script>
-```
+## 🔄 Next Steps
 
-### 3. Thêm Module Preload:
-Thêm modulepreload link trong `snippets/scripts.liquid`:
-```liquid
-<link
-  rel="modulepreload"
-  href="{{ 'your-component.js' | asset_url }}"
-  fetchpriority="low"
->
-```
+1. **Phân Tích Yêu Cầu Chi Tiết**:
+   - Tạo file phân tích chi tiết các yêu cầu và câu hỏi
+   - Xác định các edge cases và constraints
 
-### 4. Thêm Script Tag:
-Thêm script tag vào `snippets/scripts.liquid` để load module:
-```liquid
-<script
-  src="{{ 'your-component.js' | asset_url }}"
-  type="module"
-  fetchpriority="low"
-></script>
-```
-
-### 5. Cấu trúc Component JavaScript:
-```javascript
-import { Component } from '@theme/component';
-
-export class YourComponent extends Component {
-  /** @type {string[]} */
-  requiredRefs = [];
-  
-  connectedCallback() {
-    super.connectedCallback();
-    
-    // Khởi tạo component
-    // Lưu ý: KHÔNG sử dụng cú pháp 'on:click [selector]', sẽ không hoạt động
-    this.addEventListener('click', this.handleClick);
-  }
-  
-  // Sử dụng event delegation
-  handleClick = (event) => {
-    // Xử lý event
-  };
-}
-
-// Đăng ký custom element
-customElements.define('your-component-name', YourComponent);
-```
-
-### 6. Cấu trúc Liquid Section:
-```liquid
-<your-component-name
-  data-section-id="{{ section.id }}"
-  data-section-type="your-component"
-  class="your-component-class"
->
-  <!-- Section content -->
-</your-component-name>
-
-{% schema %}
-{
-  "name": "Your Component",
-  "settings": [
-    // Settings
-  ],
-  "presets": [
-    {
-      "name": "Your Component"
-    }
-  ]
-}
-{% endschema %}
-```
-
-## 🔄 Ongoing Tasks
-
-### Immediate Tasks
-1. **Hoàn thiện KPR Hero Component**:
-   - Thêm styling cho component
-   - Implement chức năng hiển thị/ẩn sections dựa trên concept được chọn
-   - Thêm animations
-
-## 🚀 Next Steps
-
-1. **Implement Logic cho Concept Selection**:
-   - Thêm listener cho event `kpr:concept-selected` để hiển thị/ẩn các sections
-   - Thêm focus styles cho nút được chọn
-   - Lưu concept được chọn vào localStorage để duy trì trạng thái
-
-2. **Integration & Testing**:
-   - Test KPR Hero trong different contexts
-   - Verify responsive behavior
-   - Test performance & accessibility
-
-## 🧩 Related Components
-
-- **Header**: Potential interaction with hero section
-- **Product Sections**: May need to link to products from hero
-- **Slideshow**: Similar animation patterns could be shared
-
-## 🔍 Technical Considerations
-
-- **Event Handling**: Sử dụng event delegation thay vì declarative event handlers
-- **Component Registration**: Đảm bảo đăng ký module trong import maps và script tags
-- **TypeScript**: Thêm JSDoc comments cho type checking
-
-## 📝 Notes & Decisions
-
-- Không sử dụng cú pháp declarative event handlers `'on:click [selector]'`, không hoạt động đúng
-- Thay vào đó, sử dụng event delegation qua `addEventListener` và `closest()`
-- Module phải được đăng ký trong Import Maps để có thể import từ các module khác
-- Component phải extends từ base Component class để sử dụng được lifecycle hooks 
+2. **Thiết Kế Architecture Mới**:
+   - Dựa trên hiểu biết sâu hơn về cách Theme Editor hoạt động
+   - Tích hợp tốt hơn với các APIs của Shopify
+   - Simplified approach phù hợp với Horizon architecture 
