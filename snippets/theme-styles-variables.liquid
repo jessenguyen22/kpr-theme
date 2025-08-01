@@ -31,11 +31,22 @@
   {{ tertiary_font_bold | font_face: font_display: 'swap' }}
   {{ tertiary_font_italic | font_face: font_display: 'swap' }}
   {{ tertiary_font_bold_italic | font_face: font_display: 'swap' }}
-
+  
+  /* Custom font Minecraft được sử dụng thay vì accent font mặc định */
+  @font-face {
+    font-family: 'Minecraft';
+    src: url('{{ "Minecraft.ttf" | asset_url }}') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+  }
+  
+  /* Original accent font declarations (commented for potential reversion)
   {{ settings.type_accent_font | font_face: font_display: 'swap' }}
   {{ accent_font_bold | font_face: font_display: 'swap' }}
   {{ accent_font_italic | font_face: font_display: 'swap' }}
   {{ accent_font_bold_italic | font_face: font_display: 'swap' }}
+  */
 
   :root {
     /* Page Layout */
@@ -78,9 +89,14 @@
     --font-heading--family: {{ settings.type_heading_font.family }}, {{ settings.type_heading_font.fallback_families }};
     --font-heading--style: {{ settings.type_heading_font.style }};
     --font-heading--weight: {{ settings.type_heading_font.weight }};
-    --font-accent--family: {{ settings.type_accent_font.family }}, {{ settings.type_accent_font.fallback_families }};
-    --font-accent--style: {{ settings.type_accent_font.style }};
-    --font-accent--weight: {{ settings.type_accent_font.weight }};
+      /* Original accent font variables (commented for potential reversion)
+  --font-accent--family: {{ settings.type_accent_font.family }}, {{ settings.type_accent_font.fallback_families }};
+  --font-accent--style: {{ settings.type_accent_font.style }};
+  --font-accent--weight: {{ settings.type_accent_font.weight }}; 
+  */
+  --font-accent--family: 'Minecraft', sans-serif;
+  --font-accent--style: normal;
+  --font-accent--weight: normal;
 
     /* Margin sizes */
     --font-h1--spacing: 0.25em;
