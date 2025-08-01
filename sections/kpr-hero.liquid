@@ -1,0 +1,80 @@
+<!-- sections/kpr-hero.liquid -->
+<kpr-hero-section 
+    data-section-id="{{ section.id }}"
+    data-section-type="kpr-hero"
+    class="kpr-hero-section"
+  >
+    <div class="hero-container">
+      <div class="hero-content">
+        <h1 class="hero-title">{{ section.settings.title }}</h1>
+        <p class="hero-subtitle">{{ section.settings.subtitle }}</p>
+        
+        <div class="hero-buttons">
+          <button 
+            class="concept-button" 
+            data-concept="traditional"
+            data-action="show-concept"
+          >
+            {{ section.settings.btn_traditional }}
+          </button>
+          <button 
+            class="concept-button"
+            data-concept="hybrid" 
+            data-action="show-concept"
+          >
+            {{ section.settings.btn_hybrid }}
+          </button>
+          <button 
+            class="concept-button"
+            data-concept="modern"
+            data-action="show-concept"
+          >
+            {{ section.settings.btn_modern }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </kpr-hero-section>
+  
+  {% schema %}
+  {
+    "name": "KPR Hero",
+    "settings": [
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Hero Title",
+        "default": "Choose Your Style"
+      },
+      {
+        "type": "text",
+        "id": "subtitle",
+        "label": "Hero Subtitle", 
+        "default": "Discover design concepts for your project"
+      },
+      {
+        "type": "text",
+        "id": "btn_traditional",
+        "label": "Traditional Button",
+        "default": "Traditional"
+      },
+      {
+        "type": "text",
+        "id": "btn_hybrid", 
+        "label": "Hybrid Button",
+        "default": "Hybrid"
+      },
+      {
+        "type": "text",
+        "id": "btn_modern",
+        "label": "Modern Button", 
+        "default": "Modern"
+      }
+    ],
+    "presets": [
+      {
+        "name": "KPR Hero"
+      }
+    ]
+  }
+  {% endschema %}
