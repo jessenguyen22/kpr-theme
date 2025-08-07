@@ -1,0 +1,235 @@
+/* KPR Performance Optimizations */
+
+/* Base performance optimizations for concept sections */
+.kpr-concept-section {
+  /* Enable hardware acceleration */
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  
+  /* Optimize layout and paint */
+  contain: layout style paint;
+  
+  /* Reduce reflows during animations */
+  will-change: transform, opacity;
+}
+
+.kpr-concept-section:not(.concept-section-visible) {
+  /* Optimize hidden sections */
+  visibility: hidden;
+  pointer-events: none;
+  contain: strict;
+}
+
+/* Optimize product grids */
+.products-grid {
+  /* Enable grid container optimizations */
+  contain: layout;
+}
+
+.product-card-wrapper {
+  /* Optimize individual cards */
+  contain: layout style;
+}
+
+/* Optimize animations */
+@media (prefers-reduced-motion: reduce) {
+  .kpr-concept-section,
+  .concept-button,
+  .kpr-floating-panel,
+  .product-card,
+  .modern-badge,
+  .hybrid-badge,
+  .bestseller-badge,
+  .recommended-badge {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* Critical loading optimizations */
+.kpr-hero-section {
+  /* Prioritize hero section rendering */
+  contain: layout style;
+}
+
+/* Optimize floating panel */
+.kpr-floating-panel {
+  /* Reduce paint complexity */
+  transform: translateZ(0);
+  will-change: transform, opacity;
+  contain: layout style;
+}
+
+/* Optimize badges and overlays */
+.new-badge,
+.bestseller-badge,
+.recommended-badge,
+.modern-badge,
+.hybrid-badge {
+  /* Minimize repaints */
+  contain: layout style;
+  transform: translateZ(0);
+}
+
+/* Font loading optimization */
+@font-face {
+  font-family: 'KPR-Icons';
+  src: url('data:font/woff2;base64,') format('woff2');
+  font-display: swap;
+}
+
+/* Image loading optimizations */
+.hero-bg-image,
+.product-card img {
+  /* Optimize image rendering */
+  image-rendering: auto;
+  
+  /* Enable GPU acceleration for smooth scrolling */
+  transform: translateZ(0);
+}
+
+/* Placeholder optimizations */
+.placeholder-image {
+  /* Reduce paint when loading */
+  contain: strict;
+}
+
+.placeholder-shimmer,
+.placeholder-bar::after {
+  /* Optimize shimmer animations */
+  will-change: transform;
+  contain: layout;
+}
+
+/* Mobile performance optimizations */
+@media (max-width: 768px) {
+  .kpr-concept-section {
+    /* Reduce complexity on mobile */
+    contain: layout;
+  }
+  
+  .products-grid {
+    /* Optimize mobile grids */
+    contain: layout;
+  }
+  
+  /* Simplify animations on mobile */
+  .concept-button:hover {
+    transform: none;
+  }
+  
+  .product-card:hover {
+    transform: translateY(-2px);
+  }
+}
+
+/* Intersection observer optimizations */
+.kpr-concept-section[data-observed="true"] {
+  /* Mark sections being observed */
+  contain: layout style paint;
+}
+
+/* Critical CSS for immediate painting */
+.kpr-hero-section .hero-title,
+.kpr-hero-section .hero-subtitle {
+  /* Ensure text renders immediately */
+  font-display: block;
+}
+
+/* Reduce layout thrashing */
+.section-header,
+.section-footer,
+.floating-panel-header {
+  /* Stabilize layout calculations */
+  contain: layout;
+}
+
+/* Performance monitoring helpers */
+@media (min-width: 769px) {
+  .kpr-concept-section {
+    /* Enable advanced optimizations on desktop */
+    contain: layout style paint size;
+  }
+}
+
+/* Optimize for 120Hz displays */
+@media (min-resolution: 120dpi) {
+  .concept-button,
+  .product-card,
+  .kpr-floating-panel {
+    /* Smooth animations on high refresh rate displays */
+    will-change: transform;
+  }
+}
+
+/* Content visibility optimizations */
+.kpr-concept-section:not(.concept-section-visible) {
+  /* Skip rendering of hidden content */
+  content-visibility: hidden;
+}
+
+.concept-section-visible {
+  /* Render visible content efficiently */
+  content-visibility: visible;
+}
+
+/* Memory optimizations */
+.products-grid:not(:hover) .product-card {
+  /* Reduce GPU memory usage when not interacting */
+  will-change: auto;
+}
+
+.kpr-floating-panel:not(.visible) {
+  /* Optimize hidden floating panel */
+  will-change: auto;
+  transform: none;
+}
+
+/* Loading state optimizations */
+.kpr-concept-section[data-loading="true"] {
+  /* Optimize during loading */
+  pointer-events: none;
+  contain: strict;
+}
+
+/* Prevent layout shifts */
+.section-heading::after {
+  /* Stabilize emoji dimensions */
+  display: inline-block;
+  width: 1.2em;
+  text-align: center;
+}
+
+/* Optimize spec bars and progress indicators */
+.performance-bar,
+.spec-bar {
+  /* Reduce repaints during animations */
+  contain: layout;
+  will-change: auto;
+}
+
+.performance-fill,
+.spec-fill {
+  /* Optimize fill animations */
+  will-change: width;
+  contain: layout;
+}
+
+/* Critical rendering path optimizations */
+.page-width {
+  /* Optimize container queries */
+  contain: layout;
+}
+
+/* Scrolling performance */
+.kpr-concept-section {
+  /* Optimize scroll performance */
+  scroll-behavior: smooth;
+}
+
+@supports (scroll-behavior: smooth) {
+  /* Enhanced smooth scrolling for supported browsers */
+  .kpr-concept-section {
+    scroll-behavior: smooth;
+  }
+}

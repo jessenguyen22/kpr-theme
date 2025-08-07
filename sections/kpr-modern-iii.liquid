@@ -1,0 +1,533 @@
+<!-- sections/kpr-modern-iii.liquid -->
+<kpr-concept-section 
+  data-section-id="{{ section.id }}"
+  data-section-type="kpr-modern-iii"
+  data-concept="modern"
+  class="kpr-concept-section kpr-modern-section kpr-modern-recommended color-{{ section.settings.color_scheme }}"
+  style="
+    --section-padding-top: {{ section.settings.padding_top }}px;
+    --section-padding-bottom: {{ section.settings.padding_bottom }}px;
+    display: none;
+  "
+>
+  <div class="page-width">
+    <div class="section-header">
+      {% if section.settings.heading != blank %}
+        <h2 class="section-heading">{{ section.settings.heading }}</h2>
+      {% endif %}
+      {% if section.settings.description != blank %}
+        <div class="section-description">{{ section.settings.description }}</div>
+      {% endif %}
+    </div>
+
+    <div class="products-grid recommended-grid modern-recommended-grid">
+      {% if section.settings.collection %}
+        {% assign collection = collections[section.settings.collection] %}
+        {% assign product_limit = section.settings.products_to_show %}
+        
+        {% for product in collection.products limit: product_limit %}
+          <div class="product-card-wrapper">
+            <div class="recommended-badge modern-recommended-badge">
+              <span>AI Pick</span>
+            </div>
+            <div class="tech-specs">
+              <div class="spec-item">
+                <span class="spec-label">Innovation</span>
+                <div class="spec-bar">
+                  <div class="spec-fill" style="width: {{ 88 | plus: forloop.index | modulo: 12 }}%"></div>
+                </div>
+              </div>
+              <div class="spec-item">
+                <span class="spec-label">Efficiency</span>
+                <div class="spec-bar">
+                  <div class="spec-fill" style="width: {{ 92 | minus: forloop.index | modulo: 8 }}%"></div>
+                </div>
+              </div>
+            </div>
+            {% render 'product-card',
+              product_card_product: product,
+              show_vendor: section.settings.show_vendor,
+              show_rating: section.settings.show_rating,
+              image_ratio: section.settings.image_ratio,
+              show_quick_add: section.settings.enable_quick_add,
+              section_id: section.id
+            %}
+            {% if section.settings.show_recommendation_reason %}
+              <div class="recommendation-reason modern-reason">
+                <div class="reason-header">
+                  <strong>AI Analysis:</strong>
+                  <span class="confidence-score">96% Match</span>
+                </div>
+                <p>Optimized for future-forward applications with exceptional scalability and performance metrics.</p>
+              </div>
+            {% endif %}
+          </div>
+        {% else %}
+          {% for i in (1..product_limit) %}
+            <div class="product-card-wrapper">
+              <div class="recommended-badge modern-recommended-badge">
+                <span>AI Pick</span>
+              </div>
+              <div class="tech-specs">
+                <div class="spec-item">
+                  <span class="spec-label">Innovation</span>
+                  <div class="spec-bar">
+                    <div class="spec-fill" style="width: {{ 88 | plus: i | modulo: 12 }}%"></div>
+                  </div>
+                </div>
+                <div class="spec-item">
+                  <span class="spec-label">Efficiency</span>
+                  <div class="spec-bar">
+                    <div class="spec-fill" style="width: {{ 92 | minus: i | modulo: 8 }}%"></div>
+                  </div>
+                </div>
+              </div>
+              {% render 'product-card-placeholder' %}
+              {% if section.settings.show_recommendation_reason %}
+                <div class="recommendation-reason modern-reason">
+                  <div class="reason-header">
+                    <strong>AI Analysis:</strong>
+                    <span class="confidence-score">96% Match</span>
+                  </div>
+                  <p>Optimized for future-forward applications with exceptional scalability and performance metrics.</p>
+                </div>
+              {% endif %}
+            </div>
+          {% endfor %}
+        {% endfor %}
+      {% else %}
+        {% for i in (1..section.settings.products_to_show) %}
+          <div class="product-card-wrapper">
+            <div class="recommended-badge modern-recommended-badge">
+              <span>AI Pick</span>
+            </div>
+            <div class="tech-specs">
+              <div class="spec-item">
+                <span class="spec-label">Innovation</span>
+                <div class="spec-bar">
+                  <div class="spec-fill" style="width: {{ 88 | plus: i | modulo: 12 }}%"></div>
+                </div>
+              </div>
+              <div class="spec-item">
+                <span class="spec-label">Efficiency</span>
+                <div class="spec-bar">
+                  <div class="spec-fill" style="width: {{ 92 | minus: i | modulo: 8 }}%"></div>
+                </div>
+              </div>
+            </div>
+            {% render 'product-card-placeholder' %}
+            {% if section.settings.show_recommendation_reason %}
+              <div class="recommendation-reason modern-reason">
+                <div class="reason-header">
+                  <strong>AI Analysis:</strong>
+                  <span class="confidence-score">96% Match</span>
+                </div>
+                <p>Optimized for future-forward applications with exceptional scalability and performance metrics.</p>
+              </div>
+            {% endif %}
+          </div>
+        {% endfor %}
+      {% endif %}
+    </div>
+
+    {% if section.settings.show_view_all and section.settings.collection %}
+      <div class="section-footer">
+        <a href="{{ collections[section.settings.collection].url }}" class="button button--primary modern-button">
+          {{ section.settings.button_label | default: 'View All Modern Recommendations' }}
+        </a>
+      </div>
+    {% endif %}
+  </div>
+
+  <!-- Modern Recommended specific styling -->
+  <style>
+    .kpr-modern-recommended {
+      background: linear-gradient(135deg, #f7f9fc 0%, #eef2f7 50%, #e3e8f0 100%);
+      border-top: 3px solid #1a1a1a;
+      position: relative;
+    }
+
+    .kpr-modern-recommended::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, #1a1a1a, #2c3e50, #1a1a1a);
+    }
+
+    .kpr-modern-recommended .section-heading {
+      color: #1a1a1a;
+      position: relative;
+    }
+
+    .kpr-modern-recommended .section-heading::after {
+      content: '🤖';
+      filter: grayscale(20%);
+    }
+
+    .kpr-modern-recommended .section-description {
+      color: #4a5568;
+    }
+
+    .kpr-modern-recommended .product-card-wrapper {
+      position: relative;
+    }
+
+    .modern-recommended-badge {
+      position: absolute;
+      top: 15px;
+      left: 15px;
+      z-index: 10;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      padding: 6px 14px;
+      border-radius: 0;
+      font-size: 0.7rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 50%, calc(100% - 8px) 100%, 0 100%);
+      min-width: 65px;
+      text-align: center;
+      animation: aiGlow 3s ease-in-out infinite;
+    }
+
+    @keyframes aiGlow {
+      0%, 100% { 
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        box-shadow: 0 0 10px rgba(102, 126, 234, 0.3);
+      }
+      50% { 
+        background: linear-gradient(135deg, #764ba2, #667eea);
+        box-shadow: 0 0 20px rgba(118, 75, 162, 0.5);
+      }
+    }
+
+    .tech-specs {
+      position: absolute;
+      top: 60px;
+      left: 15px;
+      right: 15px;
+      z-index: 9;
+      background: rgba(26, 26, 26, 0.9);
+      backdrop-filter: blur(10px);
+      padding: 12px;
+      border-radius: 0;
+      border-left: 3px solid #667eea;
+    }
+
+    .spec-item {
+      margin-bottom: 8px;
+    }
+
+    .spec-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .spec-label {
+      display: block;
+      color: white;
+      font-size: 0.65rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 4px;
+    }
+
+    .spec-bar {
+      width: 100%;
+      height: 3px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 0;
+      overflow: hidden;
+    }
+
+    .spec-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #667eea, #764ba2);
+      border-radius: 0;
+      transition: width 1.5s ease-in-out;
+      animation: specAnimation 2s ease-in-out;
+    }
+
+    @keyframes specAnimation {
+      0% { width: 0%; }
+      100% { width: var(--final-width, 90%); }
+    }
+
+    .kpr-modern-recommended .product-card {
+      border: 1px solid #cbd5e0;
+      background: #ffffff;
+      position: relative;
+      margin-top: 80px;
+    }
+
+    .kpr-modern-recommended .product-card::before {
+      background: linear-gradient(90deg, #1a1a1a, #2c3e50, #1a1a1a);
+    }
+
+    .kpr-modern-recommended .product-card:hover {
+      border-color: #1a1a1a;
+      box-shadow: 0 25px 50px rgba(26, 26, 26, 0.15);
+    }
+
+    .modern-reason {
+      background: linear-gradient(135deg, #f8fafc, #e2e8f0);
+      border: 1px solid #cbd5e0;
+      border-left: 4px solid #667eea;
+      border-radius: 0;
+      padding: 16px;
+      margin-top: 16px;
+      font-size: 0.85rem;
+      line-height: 1.5;
+      color: #2d3748;
+      position: relative;
+    }
+
+    .reason-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    .reason-header strong {
+      color: #1a1a1a;
+    }
+
+    .confidence-score {
+      background: linear-gradient(135deg, #10b981, #059669);
+      color: white;
+      padding: 2px 8px;
+      border-radius: 10px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+
+    .modern-reason p {
+      margin: 0;
+      font-weight: 300;
+    }
+
+    .kpr-modern-recommended .modern-button {
+      background: linear-gradient(135deg, #1a1a1a, #2c3e50);
+      border-color: #1a1a1a;
+    }
+
+    .kpr-modern-recommended .modern-button:hover {
+      background: linear-gradient(135deg, #000000, #1a1a1a);
+      border-color: #000000;
+    }
+
+    .modern-recommended-grid {
+      position: relative;
+    }
+
+    .modern-recommended-grid::before {
+      content: 'AI CURATED SELECTION';
+      position: absolute;
+      top: -50px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      padding: 10px 25px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 2px;
+      clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 50%, calc(100% - 10px) 100%, 0 100%);
+      min-width: 240px;
+      text-align: center;
+      animation: headerPulse 4s ease-in-out infinite;
+    }
+
+    @keyframes headerPulse {
+      0%, 100% { 
+        background: linear-gradient(135deg, #667eea, #764ba2);
+      }
+      50% { 
+        background: linear-gradient(135deg, #764ba2, #667eea);
+      }
+    }
+
+    .modern-recommended-grid::after {
+      content: '';
+      position: absolute;
+      top: -65px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 280px;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, #667eea, transparent);
+    }
+
+    @media (max-width: 768px) {
+      .modern-recommended-grid::before {
+        font-size: 0.7rem;
+        padding: 8px 20px;
+        min-width: 200px;
+      }
+
+      .tech-specs {
+        top: 55px;
+        left: 10px;
+        right: 10px;
+        padding: 10px;
+      }
+
+      .spec-label {
+        font-size: 0.6rem;
+      }
+
+      .modern-reason {
+        padding: 12px;
+        font-size: 0.8rem;
+      }
+
+      .confidence-score {
+        font-size: 0.65rem;
+        padding: 2px 6px;
+      }
+
+      .kpr-modern-recommended .product-card {
+        margin-top: 70px;
+      }
+    }
+  </style>
+</kpr-concept-section>
+
+{% schema %}
+{
+  "name": "Modern III - Recommended",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Modern Recommendations"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description",
+      "default": "AI-powered recommendations showcasing the most advanced and future-ready modern designs."
+    },
+    {
+      "type": "header",
+      "content": "Products"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection"
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "label": "Products to Show",
+      "min": 2,
+      "max": 8,
+      "step": 1,
+      "default": 4
+    },
+    {
+      "type": "select",
+      "id": "image_ratio",
+      "label": "Image Ratio",
+      "default": "adapt",
+      "options": [
+        { "value": "adapt", "label": "Adapt to Image" },
+        { "value": "portrait", "label": "Portrait" },
+        { "value": "square", "label": "Square" }
+      ]
+    },
+    {
+      "type": "checkbox",
+      "id": "show_vendor",
+      "label": "Show Vendor",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "show_rating",
+      "label": "Show Product Rating",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_quick_add",
+      "label": "Enable Quick Add",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_recommendation_reason",
+      "label": "Show AI Analysis",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "View All Button"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_view_all",
+      "label": "Show View All Button",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button Label",
+      "default": "View All Modern Recommendations"
+    },
+    {
+      "type": "header",
+      "content": "Section Settings"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color Scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding Top",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "default": 60,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding Bottom",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "default": 60,
+      "unit": "px"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "@app"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Modern III - Recommended"
+    }
+  ]
+}
+{% endschema %}

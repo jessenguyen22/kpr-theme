@@ -1,0 +1,109 @@
+<!-- snippets/product-card-placeholder.liquid -->
+<div class="product-card placeholder-card">
+  <div class="product-card__media">
+    <div class="placeholder-image">
+      <div class="placeholder-shimmer"></div>
+      <div class="placeholder-icon">
+        <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+          <rect x="4" y="8" width="32" height="24" rx="2" stroke="currentColor" stroke-width="1.5" fill="none"/>
+          <circle cx="12" cy="16" r="2" fill="currentColor" opacity="0.4"/>
+          <path d="m16 24 3-3 3 3 6-6" stroke="currentColor" stroke-width="1.5" fill="none"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+  
+  <div class="product-card__content">
+    <div class="product-card__info">
+      <div class="placeholder-title">
+        <div class="placeholder-bar" style="width: 80%"></div>
+        <div class="placeholder-bar" style="width: 60%"></div>
+      </div>
+      
+      <div class="placeholder-price">
+        <div class="placeholder-bar" style="width: 40%"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .placeholder-card {
+    border: 2px dashed rgba(0, 0, 0, 0.1);
+    background: rgba(0, 0, 0, 0.02);
+  }
+
+  .placeholder-image {
+    aspect-ratio: 1;
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .placeholder-shimmer {
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.4) 50%,
+      transparent 100%
+    );
+    animation: shimmer 2s ease-in-out infinite;
+  }
+
+  @keyframes shimmer {
+    0% { left: -100%; }
+    100% { left: 100%; }
+  }
+
+  .placeholder-icon {
+    color: rgba(0, 0, 0, 0.2);
+    z-index: 1;
+  }
+
+  .product-card__content {
+    padding: 1rem;
+  }
+
+  .placeholder-title {
+    margin-bottom: 0.5rem;
+  }
+
+  .placeholder-bar {
+    height: 12px;
+    background: linear-gradient(135deg, #e9ecef, #dee2e6);
+    border-radius: 6px;
+    margin-bottom: 0.25rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .placeholder-bar::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.6) 50%,
+      transparent 100%
+    );
+    animation: shimmer 2s ease-in-out infinite;
+  }
+
+  .placeholder-price .placeholder-bar {
+    height: 16px;
+    background: linear-gradient(135deg, #28a745, #20c997);
+    opacity: 0.3;
+  }
+</style>

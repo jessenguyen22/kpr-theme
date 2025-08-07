@@ -2,44 +2,220 @@
 <kpr-hero-section 
     data-section-id="{{ section.id }}"
     data-section-type="kpr-hero"
-    class="kpr-hero-section"
+    class="kpr-hero-section color-{{ section.settings.color_scheme }}"
+    style="
+      --section-padding-top: {{ section.settings.padding_top }}px;
+      --section-padding-bottom: {{ section.settings.padding_bottom }}px;
+    "
   >
-    <div class="hero-container">
-      <div class="hero-content">
-        <h1 class="hero-title">{{ section.settings.title }}</h1>
-        <p class="hero-subtitle">{{ section.settings.subtitle }}</p>
+    <div class="hero-container page-width">
+      {% if section.settings.background_image %}
+        <div class="hero-background">
+          {%- liquid
+            assign image_height = section.settings.background_image.width | divided_by: section.settings.background_image.aspect_ratio
+            assign sizes = '100vw'
+          -%}
+          {{ section.settings.background_image | image_url: width: 1920 | image_tag: 
+            loading: 'lazy',
+            width: section.settings.background_image.width,
+            height: image_height,
+            sizes: sizes,
+            class: 'hero-bg-image'
+          }}
+          {% if section.settings.show_overlay %}
+            <div class="hero-overlay" style="background-color: {{ section.settings.overlay_color }}; opacity: {{ section.settings.overlay_opacity | divided_by: 100.0 }};"></div>
+          {% endif %}
+        </div>
+      {% endif %}
+      
+      <div class="hero-content" style="text-align: {{ section.settings.text_alignment }};">
+        {% if section.settings.title != blank %}
+          <h1 class="hero-title">{{ section.settings.title }}</h1>
+        {% endif %}
+        {% if section.settings.subtitle != blank %}
+          <p class="hero-subtitle">{{ section.settings.subtitle }}</p>
+        {% endif %}
         
         <div class="hero-buttons">
           <button 
-            class="concept-button" 
+            class="concept-button concept-button--traditional" 
             data-concept="traditional"
             data-action="show-concept"
           >
-            {{ section.settings.btn_traditional }}
+            <span class="concept-button__icon">🏛️</span>
+            <span class="concept-button__text">{{ section.settings.btn_traditional }}</span>
           </button>
           <button 
-            class="concept-button"
+            class="concept-button concept-button--hybrid"
             data-concept="hybrid" 
             data-action="show-concept"
           >
-            {{ section.settings.btn_hybrid }}
+            <span class="concept-button__icon">⚡</span>
+            <span class="concept-button__text">{{ section.settings.btn_hybrid }}</span>
           </button>
           <button 
-            class="concept-button"
+            class="concept-button concept-button--modern"
             data-concept="modern"
             data-action="show-concept"
           >
-            {{ section.settings.btn_modern }}
+            <span class="concept-button__icon">🚀</span>
+            <span class="concept-button__text">{{ section.settings.btn_modern }}</span>
           </button>
         </div>
       </div>
     </div>
   </kpr-hero-section>
+
+  <style>
+    .kpr-hero-section {
+      position: relative;
+      padding: var(--section-padding-top) 0 var(--section-padding-bottom);
+      min-height: 60vh;
+      display: flex;
+      align-items: center;
+    }
+
+    .hero-container {
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero-background {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+    }
+
+    .hero-bg-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .hero-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero-title {
+      font-size: clamp(2rem, 5vw, 4rem);
+      font-weight: bold;
+      line-height: 1.2;
+      margin: 0 0 1rem 0;
+      color: var(--color-foreground);
+    }
+
+    .hero-subtitle {
+      font-size: clamp(1rem, 2.5vw, 1.5rem);
+      line-height: 1.4;
+      margin: 0 0 2rem 0;
+      opacity: 0.8;
+      color: var(--color-foreground);
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .concept-button {
+      background: var(--color-background);
+      color: var(--color-foreground);
+      border: 2px solid var(--color-foreground);
+      padding: 1rem 2rem;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 1rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      min-width: 150px;
+      justify-content: center;
+    }
+
+    .concept-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .concept-button--traditional:hover {
+      background: #8b4513;
+      color: white;
+      border-color: #8b4513;
+    }
+
+    .concept-button--hybrid:hover {
+      background: #4a90e2;
+      color: white;
+      border-color: #4a90e2;
+    }
+
+    .concept-button--modern:hover {
+      background: #2c3e50;
+      color: white;
+      border-color: #2c3e50;
+    }
+
+    .concept-button.active {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+    }
+
+    .concept-button--traditional.active {
+      background: #8b4513;
+      color: white;
+      border-color: #8b4513;
+    }
+
+    .concept-button--hybrid.active {
+      background: #4a90e2;
+      color: white;
+      border-color: #4a90e2;
+    }
+
+    .concept-button--modern.active {
+      background: #2c3e50;
+      color: white;
+      border-color: #2c3e50;
+    }
+
+    @media (max-width: 768px) {
+      .hero-buttons {
+        flex-direction: column;
+        align-items: center;
+      }
+      
+      .concept-button {
+        width: 100%;
+        max-width: 300px;
+      }
+    }
+  </style>
   
   {% schema %}
   {
     "name": "KPR Hero",
     "settings": [
+      {
+        "type": "header",
+        "content": "Content"
+      },
       {
         "type": "text",
         "id": "title",
@@ -47,10 +223,25 @@
         "default": "Choose Your Style"
       },
       {
-        "type": "text",
+        "type": "textarea",
         "id": "subtitle",
         "label": "Hero Subtitle", 
         "default": "Discover design concepts for your project"
+      },
+      {
+        "type": "select",
+        "id": "text_alignment",
+        "label": "Text Alignment",
+        "default": "center",
+        "options": [
+          { "value": "left", "label": "Left" },
+          { "value": "center", "label": "Center" },
+          { "value": "right", "label": "Right" }
+        ]
+      },
+      {
+        "type": "header",
+        "content": "Buttons"
       },
       {
         "type": "text",
@@ -69,6 +260,67 @@
         "id": "btn_modern",
         "label": "Modern Button", 
         "default": "Modern"
+      },
+      {
+        "type": "header",
+        "content": "Background"
+      },
+      {
+        "type": "image_picker",
+        "id": "background_image",
+        "label": "Background Image"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_overlay",
+        "label": "Show Overlay",
+        "default": false
+      },
+      {
+        "type": "color",
+        "id": "overlay_color",
+        "label": "Overlay Color",
+        "default": "#000000"
+      },
+      {
+        "type": "range",
+        "id": "overlay_opacity",
+        "label": "Overlay Opacity",
+        "min": 0,
+        "max": 100,
+        "step": 5,
+        "default": 40,
+        "unit": "%"
+      },
+      {
+        "type": "header",
+        "content": "Section Settings"
+      },
+      {
+        "type": "color_scheme",
+        "id": "color_scheme",
+        "label": "Color Scheme",
+        "default": "scheme-1"
+      },
+      {
+        "type": "range",
+        "id": "padding_top",
+        "label": "Padding Top",
+        "min": 0,
+        "max": 200,
+        "step": 4,
+        "default": 80,
+        "unit": "px"
+      },
+      {
+        "type": "range",
+        "id": "padding_bottom",
+        "label": "Padding Bottom",
+        "min": 0,
+        "max": 200,
+        "step": 4,
+        "default": 80,
+        "unit": "px"
       }
     ],
     "presets": [
